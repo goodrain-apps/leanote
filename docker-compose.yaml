@@ -1,0 +1,16 @@
+version: '2.1'
+services:
+  db:
+    image: mongo:3.2.3
+    volumes:
+      - /data:/data/db
+    network_mode: hosts
+    restart: always
+  note:
+    image: goodrainapps/leanote:2.6.1
+    volumes:
+      - /upload:/usr/local/leanote/public/upload
+      - /init:/usr/local/leanote/init
+    network_mode: hosts
+    restart: always
+
