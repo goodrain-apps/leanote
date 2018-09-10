@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 SCRIPTPATH=$(cd "$(dirname "$0")"; pwd)
 
 
@@ -14,11 +14,15 @@ fi
 rm -rf $SCRIPTPATH/src/github.com/leanote/leanote # 先删除
 ln -s ../../../../ $SCRIPTPATH/src/github.com/leanote/leanote
 
+echo "check init db"
+
 [ -f "/usr/local/leanote/init/init_ok" ] || (
-	for ((i=1;i<=60;i++ )); do
-    sleep 3
-	
-    curl 127.0.0.1:27017 >/deb/null 2>&1
+	echo "init db"
+	for i in `seq 60`
+	do
+    sleep 2
+	echo "try times: $i"
+    curl 127.0.0.1:27017 >/dev/null 2>&1
 	[ "$?" -eq 0 ] && (
 		mongorestore -h 127.0.0.1 -d leanote --dir /usr/local/leanote/mongodb_backup/leanote_install_data
 		if [ "$?" -eq 0 ];then
